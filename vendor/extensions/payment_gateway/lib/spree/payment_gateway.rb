@@ -148,6 +148,8 @@ module Spree
         text = error.params['message'] ||
                error.params['response_reason_text'] ||
                error.message
+      elsif error.is_a? ActiveMerchant::ConnectionError
+        text = I18n.t(:unable_to_connect_to_gateway)
       else
         text = error.to_s
       end
