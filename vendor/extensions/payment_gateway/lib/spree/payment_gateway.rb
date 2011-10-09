@@ -19,7 +19,7 @@ module Spree
         :avs_response => response.avs_result['code']
       )
     rescue ActiveMerchant::ConnectionError => e
-      gateway_error I18n.t(:unable_to_connect_to_gateway)
+      gateway_error(e)
     end
 
     def capture(payment)
@@ -43,7 +43,7 @@ module Spree
       )
       payment.finalize!
     rescue ActiveMerchant::ConnectionError => e
-      gateway_error I18n.t(:unable_to_connect_to_gateway)
+      gateway_error(e)
     end
 
     def purchase(amount, payment)
@@ -61,7 +61,7 @@ module Spree
         :avs_response => response.avs_result['code']
       )
     rescue ActiveMerchant::ConnectionError => e
-      gateway_error I18n.t(:unable_to_connect_to_gateway)
+      gateway_error(e)
     end
 
     def void(payment)
@@ -104,7 +104,7 @@ module Spree
       payment.update_attribute(:amount, payment.amount - amount)
       payment.order.update_totals!
     rescue ActiveMerchant::ConnectionError => e
-      gateway_error I18n.t(:unable_to_connect_to_gateway)
+      gateway_error(e)
     end
 
     # find the transaction associated with the original authorization/capture
@@ -148,6 +148,8 @@ module Spree
         text = error.params['message'] ||
                error.params['response_reason_text'] ||
                error.message
+      elsif error.is_a? ActiveMerchant::ConnectionError
+        text = I18n.t(:unable_to_connect_to_gateway)
       else
         text = error.to_s
       end
