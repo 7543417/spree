@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{spree}
-  s.version = "0.11.4"
+  s.version = "0.11.99"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Sean Schofield"]
@@ -2566,7 +2566,7 @@ Gem::Specification.new do |s|
     "vendor/plugins/unobtrusive_date_picker/uninstall.rb"
   ]
   s.homepage = %q{http://github.com/railsdog/spree}
-  s.rdoc_options = ["--exclude", "app", "--exclude", "bin", "--exclude", "config", "--exclude", "db", "--exclude", "features", "--exclude", "lib", "--exclude", "log", "--exclude", "public", "--exclude", "script", "--exclude", "test", "--exclude", "vendor"]
+  s.rdoc_options = ["--exclude", "app", "--exclude", "bin", "--exclude", "config", "--exclude", "db", "--exclude", "features", "--exclude", "lib", "--exclude", "log", "--exclude", "pkg", "--exclude", "public", "--exclude", "script", "--exclude", "test", "--exclude", "vendor"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{spree}
   s.rubygems_version = %q{1.4.2}
