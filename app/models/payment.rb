@@ -10,7 +10,7 @@ class Payment < ActiveRecord::Base
   after_save :check_payments, :if => :order_payment?
   after_destroy :check_payments, :if => :order_payment?
 
-  accepts_nested_attributes_for :source
+  attr_accessor :source_attributes
 
   validate :amount_is_valid_for_outstanding_balance_or_credit, :if => :order_payment?
   validates_presence_of :payment_method, :if => Proc.new { |payable| payable.is_a? Checkout }
@@ -21,10 +21,11 @@ class Payment < ActiveRecord::Base
     payable.is_a?(Order) ? payable : payable.order
   end
 
-  # With nested attributes, Rails calls build_[association_name] for the nested model which won't work for a polymorphic association
-  def build_source(params)
+  def after_initialize
+    return if source_attributes.nil?
+    
     if payment_method and payment_method.payment_source_class
-      self.source = payment_method.payment_source_class.new(params)
+      self.source = payment_method.payment_source_class.new(source_attributes)
     end
   end
 
